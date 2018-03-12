@@ -32,44 +32,7 @@ function boardFiller( rows , cols ){
 //assigning variable to the result
 var board = boardFiller( 10 , 10 );
 console.log( board );
-//      Board printer        
-//===========================
 
-function tableCreate() {
-  //body reference 
-  var body = document.getElementsByTagName("body")[0];
-
-  // create elements <table> and a <tbody>
-  var tbl     = document.createElement("table");
-  var tblBody = document.createElement("tbody");
-
-  // cells creation
-  for (var j = 0; j <= 2; j++) {
-      // table row creation
-      var row = document.createElement("tr");
-
-      for (var i = 0; i < 2; i++) {
-          // create element <td> and text node 
-          //Make text node the contents of <td> element
-          // put <td> at end of the table row
-       var cell = document.createElement("td");    
-            var cellText = document.createTextNode("cell is row "+j+", column "+i); 
-
-          cell.appendChild(cellText);
-          row.appendChild(cell);
-      }
-
-      //row added to end of table body
-      tblBody.appendChild(row);
-  }
-
-  // append the <tbody> inside the <table>
-  tbl.appendChild(tblBody);
-  // put <table> in the <body>
-  body.appendChild(tbl);
-  // tbl border attribute to 
-  tbl.setAttribute("border", "2");
-}
 //        Turn left
 //===========================
 //  turning a specific rover
@@ -105,87 +68,49 @@ function move( rover, gear ){
 
 //  Checking board limits
 //___________________________
+  canMove(rover.x, rover.y)
 
   function canMove(x,y){
-    var result;
-    switch(gear){
-      case 'f':
-        console.log(  'Advancing...'  );
-        switch(rover.direction){
-          case 'N':   if( y === 0 ){ return result = 0 }
-                      else if( board[rover.x][rover.y-1] === 1){ return result = 2}
-                      else{ return result = 1 }
-
-          case 'E':   if( x === board[0].length ){ return result = 0 }
-                      else if( board[rover.x+1][rover.y] === 1){ return result = 2}
-                      else{ return result = 1 }
-
-          case 'S':   if( y === board.length ){ return result = 0 }
-                      else if( board[rover.x][rover.y+1] === 1){ return result = 2}
-                      else{ return result = 1 }
-
-          case 'W':   if( x === 0 ){ return result = 0 }
-                      else if( board[rover.x-1][rover.y] === 1){ return result = 2}
-                      else{ return result = 1 }
+      switch(gear){
+        case 'f':
+          console.log(  'Advancing...'  );
+          //Checking current direction
+          switch(rover.direction){
+            case 'N':   if( board[   x   ] [ y - 1 ] in board ){ return destiny( 0 ,-1 ) } else { return out() }
+            case 'E':   if( board[ x + 1 ] [   y   ] in board ){ return destiny( 1 , 0 ) } else { return out() }
+            case 'S':   if( board[   x   ] [ y + 1 ] in board ){ return destiny( 0 , 1 ) } else { return out() } 
+            case 'W':   if( board[ x - 1 ] [   y   ] in board ){ return destiny(-1 , 0 ) } else { return out() }
+          }
+        case 'b':
+          console.log(  'Reversing...'  );
+          switch(rover.direction){
+            case 'N':   if( board[   x   ] [ y + 1 ] in board ){ return destiny( 0 , 1 ) } else { return out() }
+            case 'E':   if( board[ x - 1 ] [   y   ] in board ){ return destiny(-1 , 0 ) } else { return out() }
+            case 'S':   if( board[   x   ] [ y - 1 ] in board ){ return destiny( 0 ,-1 ) } else { return out() }
+            case 'W':   if( board[ x + 1 ] [   y   ] in board ){ return destiny( 1 , 0 ) } else { return out() }
         }
-      case 'b':
-        console.log(  'Reversing...'  );
-        switch(rover.direction){
-          case 'N':   if( y === board.length ){ return result = 0 }
-                      if( board[rover.x][rover.y+1] === 1){ return result = 2}
-                      else{ return result = 1 } 
-          case 'E':   if( x === 0 ){ return result = 0 }
-                      if( board[rover.x-1][rover.y] === 1){ return result = 2}
-                      else{ return result = 1 }
-          case 'S':   if( y === 0 ){ return result = 0 }
-                      if( board[rover.x][rover.y-1] === 1){ return result = 2}
-                      else{ return result = 1 }
-          case 'W':   if( x === board[0].length ){ return result = 0 }
-                      if( board[rover.x+1][rover.y] === 1){ return result = 2}
-                      else{ return result = 1 }
+        //Checking destination for obstacles (1), borders (undefined), rovers (2)
+        function destiny( deltaX , deltaY ){
+          switch( board[ x + deltaX ][ y + deltaY ] ){
+            case 0:   board[ rover.x][ rover.y ] = 0;
+                      rover.x +=  deltaX;
+                      rover.y +=  deltaY;
+                      //marking the new position as taken. 2 stands for rover
+                      board[ rover.x][ rover.y ] = 2;
+                      console.log(  "New coordinates: ["  + rover.x + "," + rover.y + "]."  );
+                      break;
+            case 1:   console.log(  "Obstacle encountered. Coordinates unchanged: ["  + rover.x + "," + rover.y + "]" )
+                      break;
+            case 'R': console.log(  "Other rover is blocking your way. Coordinates unchanged: ["  + rover.x + "," + rover.y + "]" )
+                      break;          
+          }
+        }
+        function out(){
+          console.log(  "You've reached the mission border. Coordinates unchanged: ["  + rover.x + "," + rover.y + "]"  )
+        } 
       }
     }
   }
-//    Coordinates change
-//___________________________
-  function positionDelta( direction ){
-    switch( gear ){
-      case 'f':
-        switch( direction ){
-          case 'N': return deltaXY=[ 0 ,-1 ]
-          case 'E': return deltaXY=[ 1 , 0 ]
-          case 'S': return deltaXY=[ 0 , 1 ]
-          case 'W': return deltaXY=[-1 , 0 ]
-        }
-      case 'b':
-        switch( direction ){
-          case 'N': return deltaXY=[ 0 , 1 ]
-          case 'E': return deltaXY=[-1 , 0 ]
-          case 'S': return deltaXY=[ 0 ,-1 ]
-          case 'W': return deltaXY=[ 1 , 0 ]
-        }
-    }
-  }
-//    Resolving movement
-//___________________________
-  switch( canMove( rover.x , rover.y )  ){
-    case 1:
-      positionDelta( rover.direction );
-      //leaving space empty. We know it's 0 because rover was able to enter
-      board[ rover.x][ rover.y ] = 0;
-      rover.x+=deltaXY[ 0 ];
-      rover.y+=deltaXY[ 1 ];
-      //marking the new position as taken. 3 stands for rover
-      board[ rover.x][ rover.y ] = 3;
-      console.log(  "New coordinates: ["  + rover.x + "," + rover.y + "]."  );
-      break;
-    case 0:
-      console.log(  "You've reached the mission border. Coordinates unchanged: ["  + rover.x + "," + rover.y + "]"  )
-      break;
-    case 2:
-      console.log(  "Obstacle encountered. Coordinates unchanged: ["  + rover.x + "," + rover.y + "]" )
-  }
-}
 //      Route function
 //===========================
 function missionTrajectory( input ){
@@ -225,4 +150,4 @@ function missionTrajectory( input ){
 }
 //       Route caller
 //___________________________
-missionTrajectory( 'bbrbfflbbrfrfrb' );
+missionTrajectory( 'brffrffrrbbrf' );
