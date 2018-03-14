@@ -1,13 +1,14 @@
 // Rover constructor function
 // ==========================
-var Rover = function( direction , x , y ){
+var Rover = function( direction , x , y, commands ){
   this.direction = direction,
   this.x = x,
   this.y = y,
+  this.commands = commands.split(''),
   this.travelLog = [  "[" + x + "," + y + "]"  ]
 }
-var rover   =   new Rover( 'N' , 0 , 0 );
-var rover2  =   new Rover( 'S' , 3 , 3 );
+var rover1   =   new Rover( 'N' , 0 , 0, 'brffrffrrbbrf' );
+var rover2  =   new Rover( 'S' , 3 , 3 , 'rrfflffrffrbb');
 
 //    Board preparation
 //===========================
@@ -51,7 +52,7 @@ function turnLeft( rover ){
 //===========================
 //  turning a specific rover
 function turnRight( rover ){
-  console.log('Unit facing '+rover.direction+'. Turning right.');
+  console.log('Unit facing ' + rover.direction + '. Turning right.');
   //  setting a new direction based on old one
   switch(rover.direction){
     case 'N':   return rover.direction  = 'E'
@@ -113,10 +114,9 @@ function move( rover, gear ){
   }
 //      Route function
 //===========================
-function missionTrajectory( input ){
-  var commands=input.split('');
-  for( i=0; i<commands.length; i++ ){
-    switch( commands[i] ){
+function missionTrajectory( rover, input ){
+  for( i=0; i<rover.commands.length; i++ ){
+    switch( rover.commands[i] ){
       case 'f': move( rover, 'f' );
                 moveLogging( rover );
                 break;
@@ -143,11 +143,12 @@ function missionTrajectory( input ){
 
 //      Log printer
 //___________________________
-  function missionLog(){
+  function missionLog( rover ){
     var visited = rover.travelLog.join(', ');
-      console.log( "Visited coordinates: " + visited );
+      console.log( "[" + rover + "] : Visited coordinates: " + visited );
   }
 }
 //       Route caller
 //___________________________
-missionTrajectory( 'brffrffrrbbrf' );
+missionTrajectory( rover1, rover1.commands );
+missionTrajectory( rover2, rover2.commands );
