@@ -3,13 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <title>Mars Rover</title>
+  <script src="javascripts/DOM_interactions.js"></script>
+  <script src="javascripts/Board.js"></script>
+  <script src="javascripts/Planet.js"></script>
+  <script src="javascripts/Mission.js"></script>
+  <script src="javascripts/Rover.js"></script>
   <script src="javascripts/app.js"></script>
   <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
   <div id="mars" onclick="prepareLanding()" ></div>
   <img id="happy" src="images/happy_mars.svg" alt="">
-  <button id="actionButton" class="missionButton inactive" onclick="beginMission()">Start Mission</button>
+  <button id="actionButton" class="missionButton inactive" onclick="begin()">Start Mission</button>
   <button id="runButton" class="missionButton inactive" onclick="Mars.forEachRover(Mars.missionTrajectory)">Run</button>
 </body>
 </html>
