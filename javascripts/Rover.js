@@ -66,8 +66,8 @@ class Rover {
       //----COMPROBANDO LÍMITES DEL TABLERO-----
     switch(this.direction){
       case 'N':   return this.y === 0 ? false : true;
-      case 'E':   return this.x === planet.board.rows ? false : true;
-      case 'S':   return this.y === planet.board.cols ? false : true;
+      case 'E':   return this.x === this.planet.board.rows ? false : true;
+      case 'S':   return this.y === this.planet.board.cols ? false : true;
       case 'W':   return this.x === 0 ? false : true;
       }
   }

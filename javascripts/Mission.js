@@ -9,7 +9,7 @@ class Mission {
 
     this.planet.rovers.forEach(rover => this.land(rover))
 
-    if(planet.rovers.length != 0){
+    if(this.planet.rovers.length != 0){
       console.log("Landing successful!")
       console.log("Remaining rovers:");
       console.log(this.planet.rovers);
@@ -25,6 +25,7 @@ class Mission {
     let rockiness = parseFloat(prompt("Select probability of rock presence on fields (fraction, i.e. 0.3)"))
     let size = parseInt(prompt("Selec size of the planet (2-10)"))
     this.planet.board = new Board(rockiness, size, size)
+    console.log(this.planet.board)
   }
   // Rover constructor invocation in planet instance scope
   sendRover(name, direction, y, x, commands) {

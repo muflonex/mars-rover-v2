@@ -7,13 +7,11 @@
   [2,0],...
 
 */
-window.onload = () => {
-//=====EXECUTING MISSION======
-//-----Creating an instance of Rover
-let mars = new Planet()
-let marsMission = new Mission(mars)
-marsMission.scanDestination()
-document.getElementById("mars").onclick = prepareLanding(mars)
-// rover.executeCommands();
-// rover.printRoute();
-}
+  //=====EXECUTING MISSION======
+  //-----Creating an instance of Rover
+  let mars = new Planet()
+  let marsMission = new Mission(mars)
+  marsMission.scanDestination()
+  // rover.executeCommands();
+  // rover.printRoute();
+  // document.getElementById("mars").onclick = prepareLanding(mars)

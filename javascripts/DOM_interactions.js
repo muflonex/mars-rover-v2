@@ -4,12 +4,6 @@ const modClass = element => document.getElementsByClassName(element)
 const create = element => document.createElement(element)
 const attr = () => this.setAttribute(attribute, value)
 
-
-const ROVER_IMG = create("img");
-ROVER_IMG.src = "images/rover.png";
-const FAILURE_IMG = create("img");
-FAILURE_IMG.src = "images/failure.svg";
-
 // Program interface initiation
 const prepareLanding = (planet) => {
   if (modId("mars")) {
@@ -30,6 +24,11 @@ const toggleButtons = () => {
 }
 
 const placeMarker = (y, x, type) => {
+  const ROVER_IMG = create("img");
+  ROVER_IMG.src = "images/rover.png";
+  const FAILURE_IMG = create("img");
+  FAILURE_IMG.src = "images/failure.svg";
+
   let id = y + "_" + x;
   let currentCell = document.getElementById(id);
   if (type == "rover")
@@ -43,14 +42,15 @@ const paintBoard = (planet) => {
   let tbl = create("table")
   let tblBody = create("tbody")
   let mars = modId("marsLanding");
-  let ROCK_IMG = create("img");
-  ROCK_IMG.src = "images/rock.svg";
+
   
   // cells creation
   for (let j = 0; j < planet.board.rows; j++) {
     let row = create("tr")
     for (let i = 0; i < planet.board.cols; i++) {
       let cell = create("td")
+      const ROCK_IMG = create("img");
+      ROCK_IMG.src = "images/rock.svg";
       // create element <td> and text node
       // put text node content into <td> element
       // put <td> at end of the table row
@@ -70,6 +70,7 @@ const paintBoard = (planet) => {
       } else {
         cell.appendChild(cellText);
       }
+
       if (planet.board.fields[j][i] === 1) {
         cell.appendChild(ROCK_IMG).classList.add("rock");
       }
