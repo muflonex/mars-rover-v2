@@ -7,7 +7,6 @@ class Mission {
     this.sendRover("rover2", "S", 2, 3);
     this.sendRover("rover3", "E", 7, 9);
 
-    prepareLanding(this.planet)
     this.planet.rovers.forEach(rover => this.land(rover))
 
     if(planet.rovers.length != 0){

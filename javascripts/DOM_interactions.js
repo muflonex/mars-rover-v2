@@ -4,13 +4,12 @@ const modClass = element => document.getElementsByClassName(element)
 const create = element => document.createElement(element)
 const attr = () => this.setAttribute(attribute, value)
 
-const MARS = modId("marsLanding");
+
 const ROVER_IMG = create("img");
 ROVER_IMG.src = "images/rover.png";
 const FAILURE_IMG = create("img");
 FAILURE_IMG.src = "images/failure.svg";
-const ROCK_IMG = create("img");
-ROCK_IMG.src = "images/rock.svg";
+
 // Program interface initiation
 const prepareLanding = (planet) => {
   if (modId("mars")) {
@@ -43,12 +42,15 @@ const paintBoard = (planet) => {
   // <table>, <tbody>, <tr> and <td> shorts
   let tbl = create("table")
   let tblBody = create("tbody")
-  let row = create("tr")
-  let cell = create("td")
-
+  let mars = modId("marsLanding");
+  let ROCK_IMG = create("img");
+  ROCK_IMG.src = "images/rock.svg";
+  
   // cells creation
   for (let j = 0; j < planet.board.rows; j++) {
+    let row = create("tr")
     for (let i = 0; i < planet.board.cols; i++) {
+      let cell = create("td")
       // create element <td> and text node
       // put text node content into <td> element
       // put <td> at end of the table row
@@ -68,9 +70,10 @@ const paintBoard = (planet) => {
       } else {
         cell.appendChild(cellText);
       }
-      if (Mars.board[j][i] === 1) {
+      if (planet.board.fields[j][i] === 1) {
         cell.appendChild(ROCK_IMG).classList.add("rock");
       }
+
     }
     //row added to end of table body
     tblBody.appendChild(row);
@@ -78,5 +81,5 @@ const paintBoard = (planet) => {
   // append the <tbody> inside the <table>
   tbl.appendChild(tblBody);
   // put <table> in the <body>
-  MARS.appendChild(tbl);
+  mars.appendChild(tbl);
 }
