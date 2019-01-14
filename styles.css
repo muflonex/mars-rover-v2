@@ -10,7 +10,6 @@ body{
 }
 table{
   margin: auto;
-  padding-top: 5vh;
   transform: skew(-30deg, 0deg) ;
   -webkit-transform: skew(-30deg, 0deg) ;
   -moz-transform: skew(-30deg, 0deg) ;
